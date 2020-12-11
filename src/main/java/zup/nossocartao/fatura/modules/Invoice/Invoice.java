@@ -5,6 +5,7 @@ import zup.nossocartao.fatura.modules.Transaction.Transaction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -45,5 +46,36 @@ public class Invoice {
         this.closingDate = closingDate;
         this.dueDate = dueDate;
         this.status = status;
+    }
+
+    public BigDecimal getTotal() {
+        return this.transactions
+                .stream()
+                .map(transaction -> transaction.getValue())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public LocalDate getOpeningDate() {
+        return openingDate;
+    }
+
+    public LocalDate getClosingDate() {
+        return closingDate;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public InvoiceStatus getStatus() {
+        return status;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
     }
 }
